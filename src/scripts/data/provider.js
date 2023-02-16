@@ -10,3 +10,4 @@ const applicationState = {
         displayMessages: false
     }
 }
+
