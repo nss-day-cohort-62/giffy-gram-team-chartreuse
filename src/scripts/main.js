@@ -11,3 +11,4 @@ export const renderApp = () => {
         applicationElement.innerHTML = LoginForm()
     }
 }
+renderApp()
