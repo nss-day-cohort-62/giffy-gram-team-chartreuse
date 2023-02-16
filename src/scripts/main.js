@@ -1,5 +1,6 @@
 import { GiffyGram } from "./GiffyGram.js"
 
+
 const applicationElement = document.querySelector(".giffygram")
 
 export const renderApp = () => {
