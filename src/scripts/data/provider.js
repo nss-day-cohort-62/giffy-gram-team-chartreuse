@@ -8,7 +8,9 @@ const applicationState = {
         displayFavorites: false,
         displayMessages: false
     },
-    users: []
+    users: [],
+    posts: [],
+    
 }
 
 export const fetchUsers = () => {
