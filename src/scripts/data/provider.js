@@ -27,8 +27,29 @@ export const getUsers = () => {
     return applicationState.users.map(user => ({...user}))
 }
 
+export const getChosenUser =() => {
+    return applicationState.feed.chosenUser
+}
+
 export const setUser = (id) => {
     applicationState.feed.chosenUser = id
+    applicationElement.dispatchEvent(new CustomEvent('stateChanged'))
+}
+
+export const getFeed = () => {
+    return applicationState.feed
+}
+
+export const getShowFavorites = () => {
+    return applicationState.feed.displayFavorites
+}
+
+export const chooseFavoriteOnly = (choice) => {
+    if (choice) {
+        applicationState.feed.chosenUser = null
+    } else {
+        applicationState.feed.displayFavorites = choice
+    }
 }
 
 export const fetchPosts = () => {
