@@ -90,3 +90,17 @@ export const deleteMessages = (id) => {
             }
         )
 }
+
+export const saveMessage = (message) => {
+    return fetch(`${apiURL}/messages`, {
+        method: "POST",
+        headers: {
+            "Content-Type": 'application/json'
+        },
+        body: JSON.stringify(message)
+    })
+    .then(response => response.json())
+    .then(() => {
+        return fetchMessages()
+    })
+}
