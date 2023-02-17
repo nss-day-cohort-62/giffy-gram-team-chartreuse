@@ -7,7 +7,11 @@ const applicationState = {
         chosenUser: null,
         displayFavorites: false,
         displayMessages: false
-    }
+    },
+    users: [],
+    posts: [],
+    likes: [],
+    messages: []
 }
 
 export const fetchUsers = () => {
@@ -86,4 +90,8 @@ export const deleteMessages = (id) => {
                 applicationElement.dispatchEvent(new CustomEvent("stateChanged"))
             }
         )
+}
+
+export const setDisplayMessages = () => {
+    applicationState.feed.displayMessages = true
 }
