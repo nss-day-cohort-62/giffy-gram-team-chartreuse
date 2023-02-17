@@ -55,7 +55,7 @@
 }
 
 .post__image {
-    width: 100%;
+    width: 50%;
 }
 
 .post__actions {
@@ -81,5 +81,5 @@
 }
 
 #form {
-    padding: 75px;
+    padding: 75px; 
 }
