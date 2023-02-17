@@ -7,7 +7,10 @@ const applicationState = {
         chosenUser: null,
         displayFavorites: false,
         displayMessages: false
-    }
+    },
+    users: [],
+    posts: [],
+    
 }
 
 export const fetchUsers = () => {
