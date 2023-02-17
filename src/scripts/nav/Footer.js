@@ -1,9 +1,10 @@
-import { getUsers, getPosts, getFavorites, setUser } from "../data/provider.js";
+import { getUsers, getPosts, getFavorites, setUser,getChosenUser } from "../data/provider.js";
 import { applicationElement } from "../main.js";
 
 export const Footer = () => {
     const users = getUsers()
     const posts = getPosts()
+    const chosenUserId = getChosenUser()
     return `<div class="footer">
     <label class="year" for="year">Posts since </label>
         <select class="year" id="year">
@@ -14,11 +15,12 @@ export const Footer = () => {
         </select> 
      ${posts.length}
     <label class="users" for="users">Posts by user </label>
-        <select class="users" id="users">
+        <select class="users" id="users"> <option value="0">Choose An Option</option>
             ${
                 users.map(
                     user => {
-                        return `<option value="${user.id}">${user.name}</option>`
+                        let selected = (user.id == chosenUserId) ? 'selected' : ''
+                        return `<option value="${user.id}" ${selected}>${user.name}</option>`
                         }
                 ).join("")
             }
@@ -48,12 +50,8 @@ document.addEventListener("change", event => {
     if (event.target.id === "users") {
         const userId = parseInt(event.target.value)
         setUser(userId)
-        for (const post of posts) {
-            if (userId === post.userId) {
-                miniMode.innerHtml = chosenUserPosts(post)
-            }
-        }
-        //applicationElement.dispatchEvent(new CustomEvent("stateChanged"))
+      
+        applicationElement.dispatchEvent(new CustomEvent("stateChanged"))
     }
     
 })

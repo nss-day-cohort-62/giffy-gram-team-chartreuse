@@ -1,4 +1,4 @@
-import { getPosts, getFavorites, getUsers, savePost } from "../data/provider.js"
+import { getPosts, getFavorites, getUsers, savePost, getFeed, getShowFavorites } from "../data/provider.js"
 
 const applicationElement = document.querySelector(".giffygram")
 
@@ -14,18 +14,36 @@ export const createPost = () => {
     return html
 }
 
+
+
 export const postList = () => {
-    const posts = getPosts()
+    let posts = getPosts()
     const users = getUsers()
+    const feed = getFeed()
     let html = ""
+
+    if (feed.chosenUser){
+       posts = posts.filter(post => {
+            return post.userId === feed.chosenUser
+        })
+    }
+
+    if (feed.displayFavorites){
+        posts = posts.filter(post => {
+             return post.userId === feed.displayFavorites
+         })
+     }
 
     for (const post of posts){
         html += `<div class="giffygram__feed"> <h3> ${post.name} </h3> <img class="gif" src="${post.link}"> <p> ${post.message} </p>`
         for (const user of users) {
             if(user.id === parseInt(post.userId)){
-                html += `<p> Posted by ${user.name} on ${post.datePosted} </p>`
+                html += `<p> Posted by ${user.name} on ${post.datePosted} </p> <img class="post__remark" src="../images/favorite-star-blank.svg" /> 
+                <img class="post__remark" src="../images/favorite-star-blank.svg" />` 
                 if(user.id ===localStorage.getItem("gg_user")) {
-                   ` </div>`
+                    
+                   `
+                   </div>`
                 }
                 
             }
