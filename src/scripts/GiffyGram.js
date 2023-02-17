@@ -14,8 +14,8 @@ export const GiffyGram = () => {
     <div id="form">
     <div class="miniMode" id="miniMode">
     Have a gif to post? </div>
-    <div>
     ${postList()}
+    </div>
     ${MessageList()}
     </body>
     ${Footer()}`

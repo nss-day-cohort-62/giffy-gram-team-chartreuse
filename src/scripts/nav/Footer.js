@@ -41,30 +41,52 @@ export const Footer = () => {
         `
 }
 
+const chosenUserPosts = (post) => {
+   const users = getUsers()
+    let html = ""
+    html += `<div class="giffygram__feed"> <h3> ${post.name} </h3> <img class="post__image" src="${post.link}"> <p> ${post.message} </p>`
+        for (const user of users) {
+            if(user.id === parseInt(post.userId)){
+                html += `<p> Posted by ${user.name} on ${post.datePosted} </p>`
+            
+        }
+    }
+
+    return html
+}
+
+// applicationElement.addEventListener("click", clickEvent => {
+//     const miniMode = document.querySelector("#form")
+//     if (clickEvent.target.id === "miniMode") {
+//         miniMode.innerHTML = createPost() + postList()
+//     }
+// })
+
 
 
 document.addEventListener("click", clickEvent => {
+    const miniMode = document.querySelector("#form")
+    const posts = getPosts()
+    let chosenUser = null
     if (clickEvent.target.id === "users") {
-        applicationState.feed.chosenUser = clickEvent.target.value
-    }
-    if (applicationState.feed.chosenUser != null) {
+        chosenUser = parseInt(clickEvent.target.value)
         for (const post of posts) {
-            if(applicationState.feed.chosenUser === post.userId) {
-
+            if(chosenUser === parseInt(post.userId)) {
+                miniMode.innerHTML = chosenUserPosts(post) + Footer()
             }
         }
     }
-})
+    })
 
-document.addEventListener("change", event => {
-    if (event.target.id === "favorite") {
-        applicationState.feed.displayFavorites = true
-    }
-    if (applicationState.feed.disp) {
-        for (const post of posts) {
-            if(applicationState.feed.chosenUser === post.userId) {
+// document.addEventListener("change", event => {
+//     if (event.target.id === "favorite") {
+//         applicationState.feed.displayFavorites = true
+//     }
+//     if (applicationState.feed.disp) {
+//         for (const post of posts) {
+//             if(applicationState.feed.chosenUser === post.userId) {
                 
-            }
-        }
-    }
-})
+//             }
+//         }
+//     }
+// })

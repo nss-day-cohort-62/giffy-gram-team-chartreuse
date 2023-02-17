@@ -54,7 +54,7 @@
 }
 
 .post__image {
-    width: 100%;
+    width: 50%;
 }
 
 .post__actions {
@@ -71,4 +71,8 @@
 .post__remark {
     font-size: 2em;
     margin: 1em 0 0.5em 0;
+}
+
+#form {
+    padding: 75px; 
 }

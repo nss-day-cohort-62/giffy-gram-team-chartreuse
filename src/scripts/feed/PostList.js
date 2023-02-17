@@ -20,7 +20,7 @@ export const postList = () => {
     let html = ""
 
     for (const post of posts){
-        html += `<div class="giffygram__feed"> <h3> ${post.name} </h3> <img class="gif" src="${post.link}"> <p> ${post.message} </p>`
+        html += `<div class="giffygram__feed"> <h3> ${post.name} </h3> <img class="post__image" src="${post.link}"> <p> ${post.message} </p>`
         for (const user of users) {
             if(user.id === parseInt(post.userId)){
                 html += `<p> Posted by ${user.name} on ${post.datePosted} </p>`
