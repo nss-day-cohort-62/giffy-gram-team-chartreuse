@@ -6,12 +6,13 @@ import { fetchFavorites, fetchMessages, fetchPosts, fetchUsers } from "./data/pr
 const applicationElement = document.querySelector(".giffygram")
 
 export const renderApp = () => {
+    const user = parseInt(localStorage.getItem("gg_user"))
     fetchUsers()
     .then(() => fetchFavorites())
     .then(() => fetchMessages())
     .then(() => fetchPosts())
     .then(() => {
-        const user = parseInt(localStorage.getItem("gg_user"))
+        
 
         if (user) {
             applicationElement.innerHTML = GiffyGram()

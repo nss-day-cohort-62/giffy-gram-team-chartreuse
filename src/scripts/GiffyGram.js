@@ -2,6 +2,7 @@ import { createPost, postList } from "./feed/PostList.js"
 
 
 const applicationElement = document.querySelector(".giffygram")
+import { directMessage } from "./friends/DirectMessage.js"
 
 export const GiffyGram = () => {
 
@@ -13,6 +14,7 @@ export const GiffyGram = () => {
     <div>
     ${postList()}
     
-    `
+        ${directMessage()}`
+    
 }
 
