@@ -47,6 +47,27 @@ applicationElement.addEventListener("click", clickEvent => {
         const title = document.querySelector("input[name='title']").value
         const gifLink = document.querySelector("input[id='url']").value
         const story = document.querySelector("textarea[id='story']").value
+        const localGiffyUser = localStorage.getItem("gg_user")
+        const giffyGramUser = JSON.parse(localGiffyUser)
+
+        const dataToSend = {
+            name: title, 
+            link: gifLink, 
+            message: story, 
+            datePosted: new Date().toLocaleDateString(),
+            userId: giffyGramUser
+        }
+        savePost(dataToSend)
+        
+    }
+
+})
+
+/* applicationElement.addEventListener("click", clickEvent => {
+    if (clickEvent.target.id === "newPost_submit") {
+        const title = document.querySelector("input[name='title']").value
+        const gifLink = document.querySelector("input[id='url']").value
+        const story = document.querySelector("textarea[id='story']").value
 
         const dataToSend = {
             name: title, 
@@ -60,7 +81,7 @@ applicationElement.addEventListener("click", clickEvent => {
         
     }
 
-})
+}) */
 
 applicationElement.addEventListener("click", clickEvent => {
     if (clickEvent.target.id === "newPost_cancel") {

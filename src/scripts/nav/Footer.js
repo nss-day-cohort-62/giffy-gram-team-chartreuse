@@ -1,17 +1,5 @@
-import { getUsers, getPosts, getFavorites } from "../data/provider.js";
-
-const applicationState = {
-    currentUser: {},
-    feed: {
-        chosenUser: null,
-        displayFavorites: false,
-        displayMessages: false
-    },
-    users: [],
-    posts: [],
-    
-}
-
+import { getUsers, getPosts, getFavorites, setUser } from "../data/provider.js";
+import { applicationElement } from "../main.js";
 
 export const Footer = () => {
     const users = getUsers()
@@ -41,22 +29,36 @@ export const Footer = () => {
         `
 }
 
-
-
-document.addEventListener("click", clickEvent => {
-    if (clickEvent.target.id === "users") {
-        applicationState.feed.chosenUser = clickEvent.target.value
+const chosenUserPosts = (post) => {
+    const users = getUsers()
+     let html = ""
+     html += `<div class="giffygram__feed"> <h3> ${post.name} </h3> <img class="post__image" src="${post.link}"> <p> ${post.message} </p>`
+         for (const user of users) {
+             if(user.id === parseInt(post.userId)){
+                 html += `<p> Posted by ${user.name} on ${post.datePosted} </p>`
+             
+         }
+     }
+     return html
     }
-    if (applicationState.feed.chosenUser != null) {
-        for (const post of posts) {
-            if(applicationState.feed.chosenUser === post.userId) {
-
-            }
-        }
-    }
-})
 
 document.addEventListener("change", event => {
+    const miniMode = document.querySelector("#form")
+    const posts = getPosts()
+    if (event.target.id === "users") {
+        const userId = parseInt(event.target.value)
+        setUser(userId)
+        for (const post of posts) {
+            if (userId === post.userId) {
+                miniMode.innerHtml = chosenUserPosts(post)
+            }
+        }
+        //applicationElement.dispatchEvent(new CustomEvent("stateChanged"))
+    }
+    
+})
+
+/* document.addEventListener("change", event => {
     if (event.target.id === "favorite") {
         applicationState.feed.displayFavorites = true
     }
@@ -68,3 +70,4 @@ document.addEventListener("change", event => {
         }
     }
 })
+ */
