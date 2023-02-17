@@ -7,7 +7,8 @@ const applicationState = {
         chosenUser: null,
         displayFavorites: false,
         displayMessages: false
-    }
+    },
+    users: []
 }
 
 export const fetchUsers = () => {
@@ -86,4 +87,18 @@ export const deleteMessages = (id) => {
                 applicationElement.dispatchEvent(new CustomEvent("stateChanged"))
             }
         )
+}
+
+export const saveMessage = (message) => {
+    return fetch(`${apiURL}/messages`, {
+        method: "POST",
+        headers: {
+            "Content-Type": 'application/json'
+        },
+        body: JSON.stringify(message)
+    })
+    .then(response => response.json())
+    .then(() => {
+        return fetchMessages()
+    })
 }
