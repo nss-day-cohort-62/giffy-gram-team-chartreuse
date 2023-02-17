@@ -8,10 +8,7 @@ const applicationState = {
         displayFavorites: false,
         displayMessages: false
     },
-    users: [],
-    posts: [],
-    likes: [],
-    messages: []
+    users: []
 }
 
 export const fetchUsers = () => {
@@ -92,6 +89,16 @@ export const deleteMessages = (id) => {
         )
 }
 
-export const setDisplayMessages = () => {
-    applicationState.feed.displayMessages = true
+export const saveMessage = (message) => {
+    return fetch(`${apiURL}/messages`, {
+        method: "POST",
+        headers: {
+            "Content-Type": 'application/json'
+        },
+        body: JSON.stringify(message)
+    })
+    .then(response => response.json())
+    .then(() => {
+        return fetchMessages()
+    })
 }
