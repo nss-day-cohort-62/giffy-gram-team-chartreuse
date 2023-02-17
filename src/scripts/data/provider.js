@@ -7,7 +7,8 @@ const applicationState = {
         chosenUser: null,
         displayFavorites: false,
         displayMessages: false
-    }
+    },
+    users:[]
 }
 
 export const fetchUsers = () => {
@@ -49,6 +50,23 @@ export const deletePost = (id) => {
                 applicationElement.dispatchEvent(new CustomEvent("stateChanged"))
             }
         )
+}
+
+export const savePost = (userServiceRequest) => {
+    const fetchOptions = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(userServiceRequest)
+    }
+
+
+    return fetch(`${apiURL}/posts`, fetchOptions)
+    .then(response => response.json())
+    .then(() => {
+        applicationElement.dispatchEvent(new CustomEvent("stateChanged"))
+    })
 }
 
 export const fetchFavorites = () => {
