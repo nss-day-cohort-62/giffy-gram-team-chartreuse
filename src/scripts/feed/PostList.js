@@ -1,4 +1,4 @@
-import { getPosts, getFavorites, getUsers, savePost } from "../data/provider.js"
+import { getPosts, getFavorites, getUsers, savePost, getFeed, getShowFavorites } from "../data/provider.js"
 
 const applicationElement = document.querySelector(".giffygram")
 
@@ -14,18 +14,36 @@ export const createPost = () => {
     return html
 }
 
+
+
 export const postList = () => {
-    const posts = getPosts()
+    let posts = getPosts()
     const users = getUsers()
+    const feed = getFeed()
     let html = ""
+
+    if (feed.chosenUser){
+       posts = posts.filter(post => {
+            return post.userId === feed.chosenUser
+        })
+    }
+
+    if (feed.displayFavorites){
+        posts = posts.filter(post => {
+             return post.userId === feed.displayFavorites
+         })
+     }
 
     for (const post of posts){
         html += `<div class="giffygram__feed"> <h3> ${post.name} </h3> <img class="gif" src="${post.link}"> <p> ${post.message} </p>`
         for (const user of users) {
             if(user.id === parseInt(post.userId)){
-                html += `<p> Posted by ${user.name} on ${post.datePosted} </p>`
+                html += `<p> Posted by ${user.name} on ${post.datePosted} </p> <img class="post__remark" src="../images/favorite-star-blank.svg" /> 
+                <img class="post__remark" src="../images/favorite-star-blank.svg" />` 
                 if(user.id ===localStorage.getItem("gg_user")) {
-                   ` </div>`
+                    
+                   `
+                   </div>`
                 }
                 
             }
@@ -47,6 +65,27 @@ applicationElement.addEventListener("click", clickEvent => {
         const title = document.querySelector("input[name='title']").value
         const gifLink = document.querySelector("input[id='url']").value
         const story = document.querySelector("textarea[id='story']").value
+        const localGiffyUser = localStorage.getItem("gg_user")
+        const giffyGramUser = JSON.parse(localGiffyUser)
+
+        const dataToSend = {
+            name: title, 
+            link: gifLink, 
+            message: story, 
+            datePosted: new Date().toLocaleDateString(),
+            userId: giffyGramUser
+        }
+        savePost(dataToSend)
+        
+    }
+
+})
+
+/* applicationElement.addEventListener("click", clickEvent => {
+    if (clickEvent.target.id === "newPost_submit") {
+        const title = document.querySelector("input[name='title']").value
+        const gifLink = document.querySelector("input[id='url']").value
+        const story = document.querySelector("textarea[id='story']").value
 
         const dataToSend = {
             name: title, 
@@ -60,7 +99,7 @@ applicationElement.addEventListener("click", clickEvent => {
         
     }
 
-})
+}) */
 
 applicationElement.addEventListener("click", clickEvent => {
     if (clickEvent.target.id === "newPost_cancel") {
