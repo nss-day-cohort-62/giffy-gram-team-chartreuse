@@ -6,7 +6,8 @@ const applicationState = {
     feed: {
         chosenUser: null,
         displayFavorites: false,
-        displayMessages: false
+        displayMessages: false, 
+        setDate: null
     },
     users: [],
     posts: [],
@@ -34,6 +35,21 @@ export const getChosenUser =() => {
 export const setUser = (id) => {
     applicationState.feed.chosenUser = id
     applicationElement.dispatchEvent(new CustomEvent('stateChanged'))
+}
+
+export const getChosenDate = () => {
+    return applicationState.feed.setDate
+}
+
+export const setDate = (id) => {
+    applicationState.feed.setDate = id
+    applicationElement.dispatchEvent(new CustomEvent('stateChanged'))
+}
+
+export const setOnlyFav = () => {
+    applicationState.feed.displayFavorites = !applicationState.feed.displayFavorites
+
+    console.log(applicationState.feed.displayFavorites)
 }
 
 export const getFeed = () => {
