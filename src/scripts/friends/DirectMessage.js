@@ -1,8 +1,14 @@
-import { getMessages, getUsers } from "../data/provider.js"
+import { getMessages, getUsers, getShowPrivateMessage } from "../data/provider.js"
+import { NavBar } from "../nav/NavBar.js"
 
 export const MessageList = () => {
     const messages = getMessages()
     const users = getUsers()
+    const showForm = getShowPrivateMessage()
+
+    if (!showForm) {
+        return ``
+    } else {
 
     let html = `<article class="messageList">
             ${messages.map(message => {
@@ -21,16 +27,17 @@ export const MessageList = () => {
 
         return html
     }
-
+}
 
 export const directMessage = () => {
     
     //will want to insert Nav and Footer above and below I think
     return  `
-    
+    ${NavBar()}
     <div class="messages">
         ${MessageList()}
     </div>
     
 `
 }
+
