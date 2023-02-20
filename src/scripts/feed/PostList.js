@@ -51,7 +51,7 @@ export const postList = () => {
             }
             if(user.id === parseInt(post.userId)){
                 html += `<div class="userPost" value="${user.id}" id="${post.id}">Posted by ${user.name} on ${post.datePosted}
-                        <img class="post__remark" id="favorite" value="${post.id} src="../images/favorite-star-blank.svg"/>${deleteHTML}</div></article>`   
+                        <img class="post__remark" id="favorite" value="${post.id}" src="../images/favorite-star-blank.svg" />${deleteHTML}</div></article>`   
             }
         }
     }
@@ -114,10 +114,10 @@ applicationElement.addEventListener("click", clickEvent => {
     }
 })
 
-applicationElement.addEventListener("click", e => {
-    if (e.target.id === "favorite") {
+applicationElement.addEventListener("click", clickEvent => {
+    if (clickEvent.target.id === "favorite") {
         const selectedUserId = localStorage.getItem("gg_user")
-        const selectedPostId = e.target
+        const selectedPostId = clickEvent.target.value
 
         const userDataToAPI = {
             userId: parseInt(selectedUserId),
@@ -128,8 +128,8 @@ applicationElement.addEventListener("click", e => {
     }
 })
 
-applicationElement.addEventListener("click", e => {
-    if (e.target.id === "post__delete") {
+applicationElement.addEventListener("click", clickEvent => {
+    if (clickEvent.target.id === "post__delete") {
         const selectedPostId = document.querySelector("article.giffygram__post div.userPost").id
         deletePost(parseInt(selectedPostId))
         applicationElement.dispatchEvent(new CustomEvent("stateChanged"))
