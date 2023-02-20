@@ -41,7 +41,7 @@ export const postList = () => {
         html += `<article class="giffygram__post" value="${post.id}"><h3> ${post.name} </h3> <img class="post__image" src="${post.link}"> <p> ${post.message} </p>`
         for (const user of users) {
             if (post.userId === giffyGramUser) {
-                deleteHTML = `<img class="post__delete" id=${post.id} src="../images/block.svg" />`
+                deleteHTML = `<img class="post__delete" id="post__delete" src="../images/block.svg" />`
             }
             if(user.id === parseInt(post.userId)){
                 html += `<div class="userPost" value="${user.id}" id="${post.id}">Posted by ${user.name} on ${post.datePosted}
@@ -122,8 +122,8 @@ applicationElement.addEventListener("click", e => {
 })
 
 applicationElement.addEventListener("click", e => {
-    if (e.target.class === "post__delete") {
-        const selectedPostId = document.querySelector(`article.giffygram__port img.post__delete`).id
+    if (e.target.id === "post__delete") {
+        const selectedPostId = document.querySelector("article.giffygram__post div.userPost").id
         deletePost(parseInt(selectedPostId))
         applicationElement.dispatchEvent(new CustomEvent("stateChanged"))
     }
