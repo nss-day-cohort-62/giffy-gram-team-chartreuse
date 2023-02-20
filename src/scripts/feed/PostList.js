@@ -13,7 +13,7 @@ export const createPost = () => {
 
     return html
 }
-
+const posts = getPosts()
 
 
 export const postList = () => {
@@ -28,9 +28,15 @@ export const postList = () => {
         })
     }
 
-    if (feed.displayFavorites){
+    if (feed.setDate){
         posts = posts.filter(post => {
-             return post.userId === feed.displayFavorites
+            return post.year === feed.setDate
+        })
+    }
+
+    if (feed.displayFavorites){
+        posts = favorites.filter(favorite => {
+             return favorite.userId === parseInt(localStorage.getItem("gg_user"))
          })
      }
 
@@ -73,6 +79,7 @@ applicationElement.addEventListener("click", clickEvent => {
             link: gifLink, 
             message: story, 
             datePosted: new Date().toLocaleDateString(),
+            year: new Date().getFullYear(),
             userId: giffyGramUser
         }
         savePost(dataToSend)

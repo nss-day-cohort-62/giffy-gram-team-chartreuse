@@ -1,24 +1,24 @@
-import { getUsers, saveMessage} from "../data/provider.js";
+import { getUsers, saveMessage, getShowForm, toggleShowForm, toggleShowPrivateMessage} from "../data/provider.js";
 
-let message = true
+let showMessageForm = getShowForm()
 const applicationElement = document.querySelector('.giffygram')
 
 document.addEventListener('click', clickEvent => {
     if (clickEvent.target.id === 'directMessageIcon') {
-        message = !message
+        toggleShowForm()
     }
 })
 
 document.addEventListener('click', clickEvent => {
     if (clickEvent.target.id === 'directMessage__submit') {
-        let recipient = document.querySelector('select[name="message"]').value 
+        let recipient = document.querySelector("#directMessage__userSelect").value 
         let messages = document.querySelector('input[name="message"]').value
         let [, recipientId] = recipient.split("--")
 
         const messageObject = {
-            userId: parseInt(localStorage.getItem('gg_user')),
+            senderId: parseInt(localStorage.getItem('gg_user')),
             recipientId: parseInt(recipientId),
-            message: messages
+            text: messages
         }
         saveMessage(messageObject)
     }
@@ -26,22 +26,28 @@ document.addEventListener('click', clickEvent => {
 
 document.addEventListener('click', clickEvent => {
     if (clickEvent.target.id === 'directMessage__close') {
-        message = true
-        applicationElement.dispatchEvent(new CustomEvent('stateChanged'))
+        setShowForm(false)
+    }
+})
+
+document.addEventListener('click', clickEvent => {
+    if (clickEvent.target.id === 'DMCount') {
+        toggleShowPrivateMessage()
     }
 })
 
 export const MessageForm = () => {
+    let showMessageForm = getShowForm()
     let users = getUsers()
     let html = ''
-    if (!message) {
+    if (!showMessageForm) {
         return ``
     } else {
         html +=
         `<article class="directMessage">
             <h2>Direct Message</h2>
             <section>Recipient:
-                <select name="directMessage__userSelect" class="message__input">
+                <select id="directMessage__userSelect" class="message__input">
                     <option>Choose Recipient</option>
                     
                     ${ users.map(user => `<option value="recipient--${user.id}">${user.name}</option>"`).join('')}
@@ -57,7 +63,7 @@ export const MessageForm = () => {
         
         <button id="directMessage__submit">Save</button>
         <button id="directMessage__cancel">Cancel</button>
-        <button id="directMessage__close>X</button>
+        <button id="directMessage__close>">x</button>
         
         </article>`
 
