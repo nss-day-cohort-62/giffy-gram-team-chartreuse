@@ -25,6 +25,14 @@ document.addEventListener('click', clickEvent => {
 })
 
 document.addEventListener('click', clickEvent => {
+    if (clickEvent.target.id === 'directMessage__cancel'){
+        document.querySelector("#directMessage__userSelect").value = 0
+        document.querySelector('input[name="message"]').value = null
+    }
+    
+})
+
+document.addEventListener('click', clickEvent => {
     if (clickEvent.target.id === 'directMessage__close') {
         setShowForm(false)
     }
@@ -35,6 +43,13 @@ document.addEventListener('click', clickEvent => {
         toggleShowPrivateMessage()
     }
 })
+
+document.addEventListener('click', clickEvent => {
+    if (clickEvent.target.id === 'directMessage__close')
+    toggleShowForm()
+})
+
+
 
 export const MessageForm = () => {
     let showMessageForm = getShowForm()
@@ -48,7 +63,7 @@ export const MessageForm = () => {
             <h2>Direct Message</h2>
             <section>Recipient:
                 <select id="directMessage__userSelect" class="message__input">
-                    <option>Choose Recipient</option>
+                    <option value="0">Choose Recipient</option>
                     
                     ${ users.map(user => `<option value="recipient--${user.id}">${user.name}</option>"`).join('')}
     
@@ -63,7 +78,7 @@ export const MessageForm = () => {
         
         <button id="directMessage__submit">Save</button>
         <button id="directMessage__cancel">Cancel</button>
-        <button id="directMessage__close>">x</button>
+        <button id="directMessage__close">x</button>
         
         </article>`
 
