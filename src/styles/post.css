@@ -76,10 +76,20 @@
     text-align: center;
     margin-left: 50%;
     margin-right: 50%;
-
-    
+    cursor: pointer; 
 }
 
-#form {
+.post__delete {
+    font-size: 2em;
+    margin: 1em 0 0.5em 0;
+    width: 15px;
+    text-align: center;
+    margin-left: 50%;
+    margin-right: 50%;   
+    cursor: pointer; 
+}
+
+/* #form {
     padding: 75px; 
 }
+ */

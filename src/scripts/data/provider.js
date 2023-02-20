@@ -189,6 +189,19 @@ export const saveMessage = (message) => {
     
 }
 
+export const saveFavorite = (favorite) => {
+    return fetch(`${apiURL}/favorites`, {
+        method: "POST",
+        headers: {
+            "Content-Type": 'application/json'
+        },
+        body: JSON.stringify(favorite)
+    })
+    .then(response => response.json())
+    .then(() => {
+        return fetchMessages()
+    })
+}
 export const setMessage = () => {
     applicationState.feed.displayMessages = true
 }
