@@ -9,7 +9,7 @@ const applicationElement = document.querySelector(".giffygram")
 export const GiffyGram = () => {
 
     // Show main main UI
-    return `${NavBar()}
+    return `
     <body>
     <div id="form">
     <div>${directMessage()}</div>
