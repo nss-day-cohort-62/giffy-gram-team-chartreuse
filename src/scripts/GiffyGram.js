@@ -1,6 +1,6 @@
 import { createPost, postList } from "./feed/PostList.js"
 import { NavBar } from "./nav/NavBar.js"
-import { MessageList } from "./friends/DirectMessage.js"
+import { directMessage, MessageList } from "./friends/DirectMessage.js"
 import { MessageForm } from "./message/MessageForm.js"
 import { Footer } from "./nav/Footer.js"
 
@@ -12,11 +12,13 @@ export const GiffyGram = () => {
     return `${NavBar()}
     <body>
     <div id="form">
+    <div>${directMessage()}</div>
+    ${MessageForm()}
     <div class="miniMode" id="miniMode">
     Have a gif to post? </div>
     ${postList()}
     </div>
-    ${MessageList()}
+    
     </body>
     ${Footer()}`
     

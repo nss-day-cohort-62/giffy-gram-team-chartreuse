@@ -1,7 +1,9 @@
 import { applicationElement } from "../main.js";
+import { getMessages, clear, setMessage } from "../data/provider.js";
 
 export const NavBar = () => {
     // Home Icon | Giffygram-h1 -- CreateDM UserDMReceived Logout
+    const messages = getMessages()
     return `
         <nav class="navigation">
             <div class="navigation__item navigation__icon">
@@ -11,7 +13,7 @@ export const NavBar = () => {
             <div class="navigation__item navigation__search"></div>
             <div class="navigation__item navigation__message">
                 <img id="directMessageIcon" src="/images/fountain-pen.svg" alt="Direct Message">
-                <div class="notification__count" id="DMCount">0</div>
+                <div class="notification__count" id="DMCount">${messages.length}</div>
             </div>
             <div class="navigation__item navigation__logout">
                 <button id="logout" class="fakeLink">Logout</button>
@@ -36,7 +38,8 @@ document.addEventListener("click", clickEvent => {
 
 document.addEventListener("click", event => {
     if (event.target.id === "DMCount") {
-        applicationElement.dispatchEvent(new CustomEvent("stateChanged"))
+        setMessage(true)
+        applicationElement.dispatchEvent(new CustomEvent('stateChanged'))
     }
 })
 

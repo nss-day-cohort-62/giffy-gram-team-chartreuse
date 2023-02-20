@@ -10,6 +10,9 @@ const applicationState = {
     },
     users: [],
     posts: [],
+    messages: [],
+    showMessageForm: false,
+    showPrivateMessages: false
     
 }
 
@@ -27,8 +30,31 @@ export const getUsers = () => {
     return applicationState.users.map(user => ({...user}))
 }
 
+export const getShowForm = () => {
+    return applicationState.showMessageForm
+}
+
+export const getShowPrivateMessage = () => {
+    return applicationState.showPrivateMessages
+}
+
+export const setShowForm = (showForm) => {
+    applicationState.showMessageForm = showForm
+    applicationElement.dispatchEvent(new CustomEvent('stateChanged'))
+}
+
 export const getChosenUser =() => {
     return applicationState.feed.chosenUser
+}
+
+export const toggleShowForm = () => {
+    applicationState.showMessageForm = !applicationState.showMessageForm
+    applicationElement.dispatchEvent(new CustomEvent('stateChanged'))
+}
+
+export const toggleShowPrivateMessage = () => {
+    applicationState.showPrivateMessages = !applicationState.showPrivateMessages
+    applicationElement.dispatchEvent(new CustomEvent('stateChanged'))
 }
 
 export const setUser = (id) => {
@@ -141,4 +167,19 @@ export const saveMessage = (message) => {
     .then(() => {
         return fetchMessages()
     })
+    .then(() => {
+       setShowForm(false)
+    })
+    
 }
+
+export const setMessage = () => {
+    applicationState.feed.displayMessages = true
+}
+
+export const clear = () => {
+    applicationState.feed.chosenUser = null
+    applicationState.feed.displayFavorites = false
+    applicationState.feed.displayMessages = false
+}
+
