@@ -142,3 +142,17 @@ export const saveMessage = (message) => {
         return fetchMessages()
     })
 }
+
+export const saveFavorite = (favorite) => {
+    return fetch(`${apiURL}/favorites`, {
+        method: "POST",
+        headers: {
+            "Content-Type": 'application/json'
+        },
+        body: JSON.stringify(favorite)
+    })
+    .then(response => response.json())
+    .then(() => {
+        return fetchMessages()
+    })
+}

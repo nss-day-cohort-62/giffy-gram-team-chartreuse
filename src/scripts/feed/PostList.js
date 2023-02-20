@@ -1,4 +1,4 @@
-import { getPosts, getFavorites, getUsers, savePost, getFeed, getShowFavorites } from "../data/provider.js"
+import { getPosts, getFavorites, getUsers, savePost, getFeed, getShowFavorites, saveFavorite, deletePost } from "../data/provider.js"
 
 const applicationElement = document.querySelector(".giffygram")
 
@@ -20,7 +20,7 @@ export const postList = () => {
     let posts = getPosts()
     const users = getUsers()
     const feed = getFeed()
-    let html = ""
+    let html = `<div class="giffygram__feed">`
 
     if (feed.chosenUser){
        posts = posts.filter(post => {
@@ -35,21 +35,21 @@ export const postList = () => {
      }
 
     for (const post of posts){
-        html += `<div class="giffygram__feed"> <h3> ${post.name} </h3> <img class="post__image" src="${post.link}"> <p> ${post.message} </p>`
+        const localGiffyUser = localStorage.getItem("gg_user")
+        const giffyGramUser = JSON.parse(localGiffyUser)
+        let deleteHTML = ``
+        html += `<article class="giffygram__post" value="${post.id}"><h3> ${post.name} </h3> <img class="post__image" src="${post.link}"> <p> ${post.message} </p>`
         for (const user of users) {
+            if (post.userId === giffyGramUser) {
+                deleteHTML = `<img class="post__delete" id=${post.id} src="../images/block.svg" />`
+            }
             if(user.id === parseInt(post.userId)){
-                html += `<p> Posted by ${user.name} on ${post.datePosted} </p> <img class="post__remark" src="../images/favorite-star-blank.svg" /> 
-                <img class="post__remark" src="../images/favorite-star-blank.svg" />` 
-                if(user.id ===localStorage.getItem("gg_user")) {
-                    
-                   `
-                   </div>`
-                }
-                
+                html += `<div class="userPost" value="${user.id}" id="${post.id}">Posted by ${user.name} on ${post.datePosted}
+                        <img class="post__remark" id="favorite" value=${post.id} src="../images/favorite-star-blank.svg"/>${deleteHTML}</div></article>`   
             }
         }
     }
-return html
+return html + `</div>`
     
 }
 
@@ -103,6 +103,28 @@ applicationElement.addEventListener("click", clickEvent => {
 
 applicationElement.addEventListener("click", clickEvent => {
     if (clickEvent.target.id === "newPost_cancel") {
+        applicationElement.dispatchEvent(new CustomEvent("stateChanged"))
+    }
+})
+
+applicationElement.addEventListener("click", e => {
+    if (e.target.id === "favorite") {
+        const selectedUserId = localStorage.getItem("gg_user")
+        const selectedPostId = document.querySelector("article.giffygram__post div.userPost").id
+
+        const userDataToAPI = {
+            userId: parseInt(selectedUserId),
+            postId: parseInt(selectedPostId)
+        }
+
+        saveFavorite(userDataToAPI)
+    }
+})
+
+applicationElement.addEventListener("click", e => {
+    if (e.target.class === "post__delete") {
+        const selectedPostId = document.querySelector(`article.giffygram__port img.post__delete`).id
+        deletePost(parseInt(selectedPostId))
         applicationElement.dispatchEvent(new CustomEvent("stateChanged"))
     }
 })
