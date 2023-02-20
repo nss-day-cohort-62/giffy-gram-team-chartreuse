@@ -13,13 +13,12 @@ export const createPost = () => {
 
     return html
 }
-const posts = getPosts()
-
 
 export const postList = () => {
     let posts = getPosts()
     const users = getUsers()
     const feed = getFeed()
+    const favorites = getFavorites()
     let html = `<div class="giffygram__feed">`
 
     if (feed.chosenUser){
@@ -47,15 +46,31 @@ export const postList = () => {
         html += `<article class="giffygram__post" value="${post.id}"><h3> ${post.name} </h3> <img class="post__image" src="${post.link}"> <p> ${post.message} </p>`
         for (const user of users) {
             if (post.userId === giffyGramUser) {
-                deleteHTML = `<img class="post__delete" id="post__delete" src="../images/block.svg" />`
+                deleteHTML = `<img class="post__delete" id="post__delete--${post.id}" src="../images/block.svg" />`
             }
             if(user.id === parseInt(post.userId)){
-                html += `<div class="userPost" value="${user.id}" id="${post.id}">Posted by ${user.name} on ${post.datePosted}</div>
-                        <p id="favorite" value="${post.id}"><img class="post__remark" src="../images/favorite-star-blank.svg" />${deleteHTML}</p></article>`   
+                html += `<div class="userPost">Posted by ${user.name} on ${post.datePosted}</div>
+                        <img class="post__remark" id="favorite--${post.id}" src="../images/favorite-star-blank.svg" />${deleteHTML}</article>`   
             }
         }
     }
 return html + `</div>`
+
+/* for (const post of posts){
+    html += `<div class="giffygram__feed"> <h3> ${post.name} </h3> <img class="post__image" src="${post.link}"> <p> ${post.message} </p>`
+    for (const user of users) {
+        if(user.id === parseInt(post.userId)){
+            html += `<p> Posted by ${user.name} on ${post.datePosted} </p> <img class="post__remark" src="../images/favorite-star-blank.svg" /> 
+            <img class="post__remark" src="../images/favorite-star-blank.svg" />` 
+            if(user.id === localStorage.getItem("gg_user")) {
+                
+               `
+               </div>`
+            }
+            
+        }
+    }
+} */
     
 }
 
@@ -115,9 +130,9 @@ applicationElement.addEventListener("click", clickEvent => {
 })
 
 applicationElement.addEventListener("click", clickEvent => {
-    if (clickEvent.target.id === "favorite") {
+    if (clickEvent.target.id.startsWith("favorite--")) {
         const selectedUserId = localStorage.getItem("gg_user")
-        const selectedPostId = clickEvent.target.value
+        const [, selectedPostId] = clickEvent.target.id.split("--")
 
         const userDataToAPI = {
             userId: parseInt(selectedUserId),
@@ -129,8 +144,8 @@ applicationElement.addEventListener("click", clickEvent => {
 })
 
 applicationElement.addEventListener("click", clickEvent => {
-    if (clickEvent.target.id === "post__delete") {
-        const selectedPostId = document.querySelector("article.giffygram__post div.userPost").id
+    if (clickEvent.target.id.startsWith("post__delete--")) {
+        const [, selectedPostId] = clickEvent.target.id.split("--")
         deletePost(parseInt(selectedPostId))
         applicationElement.dispatchEvent(new CustomEvent("stateChanged"))
     }
