@@ -50,8 +50,8 @@ export const postList = () => {
                 deleteHTML = `<img class="post__delete" id="post__delete" src="../images/block.svg" />`
             }
             if(user.id === parseInt(post.userId)){
-                html += `<div class="userPost" value="${user.id}" id="${post.id}">Posted by ${user.name} on ${post.datePosted}
-                        <img class="post__remark" id="favorite" value="${post.id}" src="../images/favorite-star-blank.svg" />${deleteHTML}</div></article>`   
+                html += `<div class="userPost" value="${user.id}" id="${post.id}">Posted by ${user.name} on ${post.datePosted}</div>
+                        <p id="favorite" value="${post.id}"><img class="post__remark" src="../images/favorite-star-blank.svg" />${deleteHTML}</p></article>`   
             }
         }
     }
