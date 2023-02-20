@@ -45,7 +45,7 @@ export const postList = () => {
             }
             if(user.id === parseInt(post.userId)){
                 html += `<div class="userPost" value="${user.id}" id="${post.id}">Posted by ${user.name} on ${post.datePosted}
-                        <img class="post__remark" id="favorite" value=${post.id} src="../images/favorite-star-blank.svg"/>${deleteHTML}</div></article>`   
+                        <img class="post__remark" id="favorite" value="${post.id} src="../images/favorite-star-blank.svg"/>${deleteHTML}</div></article>`   
             }
         }
     }
@@ -110,7 +110,7 @@ applicationElement.addEventListener("click", clickEvent => {
 applicationElement.addEventListener("click", e => {
     if (e.target.id === "favorite") {
         const selectedUserId = localStorage.getItem("gg_user")
-        const selectedPostId = document.querySelector("article.giffygram__post div.userPost").id
+        const selectedPostId = e.target
 
         const userDataToAPI = {
             userId: parseInt(selectedUserId),
