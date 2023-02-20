@@ -13,13 +13,14 @@ export const createPost = () => {
 
     return html
 }
-
+const posts = getPosts()
 
 
 export const postList = () => {
     let posts = getPosts()
     const users = getUsers()
     const feed = getFeed()
+    let favorites = getFavorites()
     let html = ""
 
     if (feed.chosenUser){
@@ -28,9 +29,15 @@ export const postList = () => {
         })
     }
 
-    if (feed.displayFavorites){
+    if (feed.setDate){
         posts = posts.filter(post => {
-             return post.userId === feed.displayFavorites
+            return post.year === feed.setDate
+        })
+    }
+
+    if (feed.displayFavorites){
+        posts = favorites.filter(favorite => {
+             return favorite.userId === parseInt(localStorage.getItem("gg_user"))
          })
      }
 
@@ -40,7 +47,7 @@ export const postList = () => {
             if(user.id === parseInt(post.userId)){
                 html += `<p> Posted by ${user.name} on ${post.datePosted} </p> <img class="post__remark" src="../images/favorite-star-blank.svg" /> 
                 <img class="post__remark" src="../images/favorite-star-blank.svg" />` 
-                if(user.id ===localStorage.getItem("gg_user")) {
+                if(user.id === localStorage.getItem("gg_user")) {
                     
                    `
                    </div>`
@@ -73,6 +80,7 @@ applicationElement.addEventListener("click", clickEvent => {
             link: gifLink, 
             message: story, 
             datePosted: new Date().toLocaleDateString(),
+            year: new Date().getFullYear(),
             userId: giffyGramUser
         }
         savePost(dataToSend)
