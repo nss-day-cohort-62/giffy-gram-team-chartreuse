@@ -11,7 +11,8 @@ export const GiffyGram = () => {
     // Show main main UI
     return `
     <body>
-    <div id="form">
+    ${NavBar()}
+    <div class="giffygram__feed" id="form">
     <div>${directMessage()}</div>
     ${MessageForm()}
     <div class="miniMode" id="miniMode">

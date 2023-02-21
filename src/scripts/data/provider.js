@@ -199,7 +199,7 @@ export const saveFavorite = (favorite) => {
     })
     .then(response => response.json())
     .then(() => {
-        return fetchMessages()
+        return fetchFavorites()
     })
 }
 export const setMessage = () => {
