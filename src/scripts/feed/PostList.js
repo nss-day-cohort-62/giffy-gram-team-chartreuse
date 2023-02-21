@@ -3,10 +3,10 @@ import { getPosts, getFavorites, getUsers, savePost, getFeed, getShowFavorites, 
 const applicationElement = document.querySelector(".giffygram")
 
 export const createPost = () => {
-    let html = `<div class="postGif"> 
-        <input class="newPost__input" id="title" type="text" name="title" placeholder="Title"/> 
-        <input class="newPost__input" id="url" type="text" name="url" placeholder="URL of gif"/>
-        <textarea class="newPost__input" id="story" rows="10" cols ="40" name="story" placeholder="story"> </textarea>
+    let html = `<div class="newPost"> 
+        <div><input class="newPost__input" id="title" type="text" name="title" placeholder="Title"/></div>
+        <div><input class="newPost__input" id="url" type="text" name="url" placeholder="URL of gif"/></div>
+        <textarea name="newPost__input" class="newPost__input newPost__description" id="story" rows="10" cols ="40" name="story" placeholder="story"> </textarea>
         <button id="newPost_submit">Save</button>
         <button id="newPost_cancel">Cancel</button>
         </div>`
@@ -21,13 +21,13 @@ export const postList = () => {
     let favorites = getFavorites()
     let html = `<div class="giffygram__feed">`
 
-    if (feed.chosenUser){
-       posts = posts.filter(post => {
+    if (feed.chosenUser) {
+        posts = posts.filter(post => {
             return post.userId === feed.chosenUser
         })
     }
 
-    if (feed.setDate){
+    if (feed.setDate) {
         posts = posts.filter(post => {
             return post.year === feed.setDate
         })
@@ -45,24 +45,31 @@ export const postList = () => {
         
     }
 
-    for (const post of posts){
+    for (const post of posts) {
         const localGiffyUser = localStorage.getItem("gg_user")
         const giffyGramUser = JSON.parse(localGiffyUser)
         let deleteHTML = ``
-        html += `<article class="giffygram__post" value="${post.id}"><h3> ${post.name} </h3> <img class="post__image" src="${post.link}"> <p> ${post.message} </p>`
+        let favoriteHTML = `favorite-star-blank.svg`
+        html += `<section class="post">
+        <h2 class="post__title">${post.name}</h2>
+        <img class="post__image" src="${post.link}">
+        <div class="post__description"> ${post.message}</div>`
         for (const user of users) {
             if (post.userId === giffyGramUser) {
-                deleteHTML = `<img class="post__delete" id="post__delete--${post.id}" src="../images/block.svg" />`
+                deleteHTML = `<img id="post__delete--${post.id}" class="actionIcon" src="../images/block.svg" />`
             }
-            if(user.id === parseInt(post.userId)){
+            if (user.id === parseInt(post.userId)) {
                 html += `<div class="userPost">Posted by ${user.name} on ${post.datePosted}</div>
-                        <img class="post__remark" id="favorite--${post.id}" src="../images/favorite-star-blank.svg" />${deleteHTML}</article>`   
+                <div class="post__actions"><img class="actionIcon" id="favorite--${post.id}" src="../images/${favoriteHTML}" />${deleteHTML}</div></section>`
             }
+            for (const favorite of favorites) {
+                if (favorite.postId === post.id && favorite.userId === giffyGramUser) {
+                    favoriteHTML = `favorite-star-yellow.svg`
+                }
+        }
         }
     }
-return html + `</div>`
-
-    
+    return html + `</div>`
 }
 
 applicationElement.addEventListener("click", clickEvent => {
@@ -81,15 +88,15 @@ applicationElement.addEventListener("click", clickEvent => {
         const giffyGramUser = JSON.parse(localGiffyUser)
 
         const dataToSend = {
-            name: title, 
-            link: gifLink, 
-            message: story, 
+            name: title,
+            link: gifLink,
+            message: story,
             datePosted: new Date().toLocaleDateString(),
             year: new Date().getFullYear(),
             userId: giffyGramUser
         }
         savePost(dataToSend)
-        
+
     }
 
 })
@@ -111,6 +118,7 @@ applicationElement.addEventListener("click", clickEvent => {
         }
 
         saveFavorite(userDataToAPI)
+        applicationElement.dispatchEvent(new CustomEvent("stateChanged"))
     }
 })
 

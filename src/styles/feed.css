@@ -1,7 +1,6 @@
 .giffygram__feed {
-    padding: 7rem 0;
+    padding: 7rem 50px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-left: 50px;
 }

@@ -51,11 +51,10 @@
 .post {
     margin: 0 25%;
     flex-basis: 50%;
-    display: flex;
 }
 
 .post__image {
-    width: 375px;
+    width: 100%;
 }
 
 .post__actions {
@@ -72,24 +71,4 @@
 .post__remark {
     font-size: 2em;
     margin: 1em 0 0.5em 0;
-    width: 15px;
-    text-align: center;
-    margin-left: 50%;
-    margin-right: 50%;
-    cursor: pointer; 
 }
-
-.post__delete {
-    font-size: 2em;
-    margin: 1em 0 0.5em 0;
-    width: 15px;
-    text-align: center;
-    margin-left: 50%;
-    margin-right: 50%;   
-    cursor: pointer; 
-}
-
-/* #form {
-    padding: 75px; 
-}
- */
