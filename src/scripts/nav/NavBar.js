@@ -13,7 +13,7 @@ export const NavBar = () => {
             <div class="navigation__item navigation__search"></div>
             <div class="navigation__item navigation__message">
                 <img id="directMessageIcon" src="/images/fountain-pen.svg" alt="Direct Message">
-                <div class="notification__count" id="DMCount">${messages.length}</div>
+                <div class="notification__count" id="DMCount">${userMessages()}</div>
             </div>
             <div class="navigation__item navigation__logout">
                 <button id="logout" class="fakeLink">Logout</button>
@@ -51,3 +51,13 @@ document.addEventListener("click", event => {
         applicationElement.dispatchEvent(new CustomEvent("stateChanged"))
     }
 })
+const userMessages = () => {
+    const messages = getMessages()
+    let num = 0
+    for (const message of messages) {
+        if(message.recipientId === parseInt(localStorage.getItem("gg_user"))) {
+            num ++
+        }
+    }
+    return num
+}
