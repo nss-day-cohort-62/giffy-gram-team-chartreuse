@@ -42,9 +42,8 @@ export const postList = () => {
         posts = posts.filter(post => {
             return favorites.includes(post.id)
         })
-        
     }
-
+    
     for (const post of posts) {
         const localGiffyUser = localStorage.getItem("gg_user")
         const giffyGramUser = JSON.parse(localGiffyUser)
@@ -100,6 +99,26 @@ applicationElement.addEventListener("click", clickEvent => {
     }
 
 })
+
+/* applicationElement.addEventListener("click", clickEvent => {
+    if (clickEvent.target.id === "newPost_submit") {
+        const title = document.querySelector("input[name='title']").value
+        const gifLink = document.querySelector("input[id='url']").value
+        const story = document.querySelector("textarea[id='story']").value
+
+        const dataToSend = {
+            name: title, 
+            link: gifLink, 
+            message: story, 
+            datePosted: new Date().toLocaleDateString(),
+            userId: localStorage.getItem("gg_user")
+
+        }
+        savePost(dataToSend)
+        
+    }
+
+}) */
 
 applicationElement.addEventListener("click", clickEvent => {
     if (clickEvent.target.id === "newPost_cancel") {
