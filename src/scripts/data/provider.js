@@ -13,7 +13,8 @@ const applicationState = {
     posts: [],
     messages: [],
     showMessageForm: false,
-    showPrivateMessages: false
+    showPrivateMessages: false,
+    showMessages: false
     
 }
 
@@ -39,6 +40,15 @@ export const getShowPrivateMessage = () => {
     return applicationState.showPrivateMessages
 }
 
+export const getShowMessage = () => {
+    return applicationState.showMessages
+}
+
+export const setShowMessages = (showMessage) => {
+    applicationState.showMessages = showMessage
+    applicationElement.dispatchEvent(new CustomEvent('stateChanged'))
+}
+
 export const setShowForm = (showForm) => {
     applicationState.showMessageForm = showForm
     applicationElement.dispatchEvent(new CustomEvent('stateChanged'))
@@ -50,6 +60,11 @@ export const getChosenUser =() => {
 
 export const toggleShowForm = () => {
     applicationState.showMessageForm = !applicationState.showMessageForm
+    applicationElement.dispatchEvent(new CustomEvent('stateChanged'))
+}
+
+export const toggleShowMessage = () => {
+    applicationState.showMessages = !applicationState.showMessages
     applicationElement.dispatchEvent(new CustomEvent('stateChanged'))
 }
 
@@ -162,7 +177,7 @@ export const getMessages = () => {
     return applicationState.messages.map(message => ({...message}))
 }
 
-export const deleteMessages = (id) => {
+export const deleteMessage = (id) => {
     return fetch(`${apiURL}/messages/${id}`, { method: "DELETE" })
         .then(
             () => {

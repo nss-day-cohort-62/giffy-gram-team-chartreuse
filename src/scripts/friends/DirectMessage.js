@@ -1,5 +1,14 @@
-import { getMessages, getUsers, getShowPrivateMessage } from "../data/provider.js"
+import { getMessages, getUsers, getShowPrivateMessage, toggleShowMessage, setShowMessages, deleteMessage } from "../data/provider.js"
 import { NavBar } from "../nav/NavBar.js"
+
+
+
+document.addEventListener('click', clickEvent => {
+    if (clickEvent.target.id.startsWith('message__close')) {
+        let [, , messageId] = clickEvent.target.id.split('__')
+        deleteMessage(messageId)
+    }
+})
 
 export const MessageList = () => {
     const messages = getMessages()
@@ -17,12 +26,13 @@ export const MessageList = () => {
                 `<section class="message" id="message--${message.id}">
                 <section class="message__author">From ${sender.name}</section>
                 <section class="message__text">${message.text}</section>
+                <button id="message__close__${message.id}">x</button>
                 </section>`
-
+                
                 return addHTML
             }).join('')}
 
-            
+                
         </article>`
 
         return html
