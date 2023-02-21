@@ -18,7 +18,7 @@ export const postList = () => {
     let posts = getPosts()
     const users = getUsers()
     const feed = getFeed()
-    const favorites = getFavorites()
+    let favorites = getFavorites()
     let html = `<div class="giffygram__feed">`
 
     if (feed.chosenUser){
@@ -34,10 +34,16 @@ export const postList = () => {
     }
 
     if (feed.displayFavorites){
-        posts = favorites.filter(favorite => {
-             return favorite.userId === parseInt(localStorage.getItem("gg_user"))
-         })
-     }
+        favorites = favorites.filter(favorite => {
+            return favorite.userId === parseInt(localStorage.getItem("gg_user"))
+        }).map(favorite => {
+            return favorite.postId
+        })
+        posts = posts.filter(post => {
+            return favorites.includes(post.id)
+        })
+        
+    }
 
     for (const post of posts){
         const localGiffyUser = localStorage.getItem("gg_user")
@@ -56,21 +62,6 @@ export const postList = () => {
     }
 return html + `</div>`
 
-/* for (const post of posts){
-    html += `<div class="giffygram__feed"> <h3> ${post.name} </h3> <img class="post__image" src="${post.link}"> <p> ${post.message} </p>`
-    for (const user of users) {
-        if(user.id === parseInt(post.userId)){
-            html += `<p> Posted by ${user.name} on ${post.datePosted} </p> <img class="post__remark" src="../images/favorite-star-blank.svg" /> 
-            <img class="post__remark" src="../images/favorite-star-blank.svg" />` 
-            if(user.id === localStorage.getItem("gg_user")) {
-                
-               `
-               </div>`
-            }
-            
-        }
-    }
-} */
     
 }
 
@@ -102,26 +93,6 @@ applicationElement.addEventListener("click", clickEvent => {
     }
 
 })
-
-/* applicationElement.addEventListener("click", clickEvent => {
-    if (clickEvent.target.id === "newPost_submit") {
-        const title = document.querySelector("input[name='title']").value
-        const gifLink = document.querySelector("input[id='url']").value
-        const story = document.querySelector("textarea[id='story']").value
-
-        const dataToSend = {
-            name: title, 
-            link: gifLink, 
-            message: story, 
-            datePosted: new Date().toLocaleDateString(),
-            userId: localStorage.getItem("gg_user")
-
-        }
-        savePost(dataToSend)
-        
-    }
-
-}) */
 
 applicationElement.addEventListener("click", clickEvent => {
     if (clickEvent.target.id === "newPost_cancel") {
