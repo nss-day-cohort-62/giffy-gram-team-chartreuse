@@ -33,7 +33,6 @@ export const directMessage = () => {
     
     //will want to insert Nav and Footer above and below I think
     return  `
-    ${NavBar()}
     <div class="messages">
         ${MessageList()}
     </div>
