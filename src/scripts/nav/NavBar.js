@@ -1,5 +1,5 @@
 import { applicationElement } from "../main.js";
-import { getMessages, clear, setMessage } from "../data/provider.js";
+import { getMessages, getShowForm, setMessage, closeShowForm, closeShowPrivateMessage } from "../data/provider.js";
 
 export const NavBar = () => {
     // Home Icon | Giffygram-h1 -- CreateDM UserDMReceived Logout
@@ -25,6 +25,9 @@ export const NavBar = () => {
 
 document.addEventListener("click", clickEvent => {
     if (clickEvent.target.id === "logo") {
+        getShowForm(false)
+        closeShowForm()
+        closeShowPrivateMessage()
         applicationElement.dispatchEvent(new CustomEvent("stateChanged"))
     }
 })

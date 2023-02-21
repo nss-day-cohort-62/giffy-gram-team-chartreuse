@@ -73,6 +73,16 @@ export const toggleShowPrivateMessage = () => {
     applicationElement.dispatchEvent(new CustomEvent('stateChanged'))
 }
 
+export const closeShowForm = () => {
+    applicationState.showMessageForm = false
+    applicationElement.dispatchEvent(new CustomEvent('stateChanged'))
+}
+
+export const closeShowPrivateMessage = () => {
+    applicationState.showPrivateMessages = false
+    applicationElement.dispatchEvent(new CustomEvent('stateChanged'))
+}
+
 export const setUser = (id) => {
     applicationState.feed.chosenUser = id
     applicationElement.dispatchEvent(new CustomEvent('stateChanged'))
@@ -89,8 +99,6 @@ export const setDate = (id) => {
 
 export const setOnlyFav = () => {
     applicationState.feed.displayFavorites = !applicationState.feed.displayFavorites
-
-    console.log(applicationState.feed.displayFavorites)
 }
 
 export const getFeed = () => {
