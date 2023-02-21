@@ -14,29 +14,28 @@ export const MessageList = () => {
     const messages = getMessages()
     const users = getUsers()
     const showForm = getShowPrivateMessage()
+    let html = `<article class="messageList">`
 
     if (!showForm) {
         return ``
     } else {
 
-    let html = `<article class="messageList">
-            ${messages.map(message => {
+        for (const message of messages){
+            if(message.recipientId === parseInt(localStorage.getItem("gg_user"))){
                 const sender = users.find(user => message.senderId === user.id)
-                let addHTML = 
-                `<section class="message" id="message--${message.id}">
+                html += `<section class="message" id="message--${message.id}">
                 <section class="message__author">From ${sender.name}</section>
                 <section class="message__text">${message.text}</section>
                 <button id="message__close__${message.id}">x</button>
                 </section>`
-                
-                return addHTML
-            }).join('')}
+            }
+        }
+    }
 
                 
-        </article>`
+       html += `</article>`
 
         return html
-    }
 }
 
 export const directMessage = () => {
