@@ -12,8 +12,8 @@ export const Footer = () => {
 
     let html = ""
     html += `<div class="footer">
-    <label class="year" for="year">Posts since </label>
-        <select class="year" id="year"> <option value="0">Choose a year</option>
+    <label class="year" for="year">Posts From </label>
+        <select class="year" id="year"> <option value="0">Choose A Year</option>
         ${
             years.map(
                 year => {
