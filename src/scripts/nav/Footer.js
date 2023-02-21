@@ -12,8 +12,8 @@ export const Footer = () => {
 
     let html = ""
     html += `<div class="footer">
-    <label class="year" for="year">Posts From </label>
-        <select class="year" id="year"> <option value="0">Choose A Year</option>
+    <label class="year " for="year">Posts Since </label>
+        <select class="year footer__item" id="year"> <option value="0">Choose A Year</option>
         ${
             years.map(
                 year => {
@@ -24,17 +24,17 @@ export const Footer = () => {
         }
         </select>`
         if (chosenUserId){
-            let num = null
+            let num = 0
             for(const post of posts){
                 if(post.userId === chosenUserId){
                     num += 1
                 }
-            } html += `${num}  `
+            } html += ` ${num}  `
         } else {
-            html += `${posts.length}  `
+            html += ` ${posts.length}  `
         }
-    html +=`<label class="users" for="users">Posts by user </label>
-        <select class="users" id="users"> <option value="0">Choose An Option</option>
+    html +=`<label class="users footer__item" for="users">Posts by user </label>
+        <select class="users footer__item" id="users"> <option value="0">Choose An Option</option>
             ${
                 users.map(
                     user => {
@@ -45,11 +45,11 @@ export const Footer = () => {
             }
         </select>`
         if (feed.displayFavorites){
-            html +=`<label class="favorite" for="favorite">Show only favorites </label> <input type="checkbox" name="favorite" checked="checked" value="favorite" />
+            html +=`<label class="favorite footer__item" for="favorite">Show only favorites </label> <input type="checkbox" name="favorite" checked="checked" value="favorite" />
             </div>
             `
         } else {
-            html +=`<label class="favorite" for="favorite">Show only favorites </label> <input type="checkbox" name="favorite" value="favorite" />
+            html +=`<label class="favorite footer__item" for="favorite">Show only favorites </label> <input type="checkbox" name="favorite" value="favorite" />
         </div>
         `
         }
