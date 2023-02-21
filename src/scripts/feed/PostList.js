@@ -29,11 +29,11 @@ export const postList = () => {
 
     if (feed.setDate) {
         posts = posts.filter(post => {
-            return post.year === feed.setDate
+            return post.year >= feed.setDate
         })
     }
 
-    if (feed.displayFavorites){
+    if (feed.displayFavorites) {
         favorites = favorites.filter(favorite => {
             return favorite.userId === parseInt(localStorage.getItem("gg_user"))
         }).map(favorite => {
@@ -43,12 +43,13 @@ export const postList = () => {
             return favorites.includes(post.id)
         })
     }
-    
+
     for (const post of posts) {
         const localGiffyUser = localStorage.getItem("gg_user")
         const giffyGramUser = JSON.parse(localGiffyUser)
         let deleteHTML = ``
         let favoriteHTML = `favorite-star-blank.svg`
+        feed.displayFavorites ? favoriteHTML = `favorite-star-yellow.svg` : ""
         html += `<section class="post">
         <h2 class="post__title">${post.name}</h2>
         <img class="post__image" src="${post.link}">
@@ -65,7 +66,7 @@ export const postList = () => {
                 if (favorite.postId === post.id && favorite.userId === giffyGramUser) {
                     favoriteHTML = `favorite-star-yellow.svg`
                 }
-        }
+            }
         }
     }
     return html + `</div>`
