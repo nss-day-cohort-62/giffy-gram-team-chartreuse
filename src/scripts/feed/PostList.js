@@ -19,7 +19,7 @@ export const postList = () => {
     const users = getUsers()
     const feed = getFeed()
     let favorites = getFavorites()
-    let html = `<div class="giffygram__feed">`
+    let html = ``
 
     if (feed.chosenUser) {
         posts = posts.filter(post => {
